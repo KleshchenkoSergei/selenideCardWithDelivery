@@ -1,8 +1,12 @@
+import com.codeborne.selenide.Configuration;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
@@ -20,6 +24,7 @@ public class CardWithDeliveryTest {
 
     @BeforeEach
     void setUp2() {
+        Configuration.headless = true;
     }
 
     @AfterEach
