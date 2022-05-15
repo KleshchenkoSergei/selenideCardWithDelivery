@@ -1,13 +1,11 @@
 import com.codeborne.selenide.Configuration;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
 
@@ -24,6 +22,7 @@ public class CardWithDeliveryTest {
 
     @BeforeEach
     void setUp2() {
+        //headless webdriver mode
         Configuration.headless = true;
     }
 
@@ -32,7 +31,7 @@ public class CardWithDeliveryTest {
     }
 
     @Test
-    public void shouldPositiveTest(){
+    public void shouldPositiveTest() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Москва"); // input city
 
@@ -53,7 +52,7 @@ public class CardWithDeliveryTest {
     }
 
     @Test
-    public void shouldCityEmpty(){
+    public void shouldCityEmpty() {
         open("http://localhost:9999"); // open webpage
         //set actual date
         LocalDate date = LocalDate.now();
@@ -69,7 +68,7 @@ public class CardWithDeliveryTest {
     }
 
     @Test
-    public void shouldCityLatin(){
+    public void shouldCityLatin() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Moscow"); // input city
         //set actual date
@@ -86,7 +85,7 @@ public class CardWithDeliveryTest {
     }
 
     @Test
-    public void shouldCityNumeric(){
+    public void shouldCityNumeric() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Москва2"); // input city
         //set actual date
@@ -103,7 +102,7 @@ public class CardWithDeliveryTest {
     }
 
     @Test
-    public void shouldCityNoDelivery(){
+    public void shouldCityNoDelivery() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Рубцовск"); // input city
         //set actual date
@@ -120,7 +119,7 @@ public class CardWithDeliveryTest {
     }
 
     @Test
-    public void shouldDateEmpty(){
+    public void shouldDateEmpty() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
         //set actual date
@@ -137,7 +136,7 @@ public class CardWithDeliveryTest {
     }
 
     @Test
-    public void shouldDateYesterday(){
+    public void shouldDateYesterday() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
         //set actual date
@@ -154,7 +153,7 @@ public class CardWithDeliveryTest {
     }
 
     @Test
-    public void shouldDateToday(){
+    public void shouldDateToday() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
         //set actual date
@@ -170,7 +169,7 @@ public class CardWithDeliveryTest {
     }
 
     @Test
-    public void shouldDateTomorrow(){
+    public void shouldDateTomorrow() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
         //set actual date
@@ -187,7 +186,7 @@ public class CardWithDeliveryTest {
     }
 
     @Test
-    public void shouldDatePlus2(){
+    public void shouldDatePlus2() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
         //set actual date
@@ -204,7 +203,7 @@ public class CardWithDeliveryTest {
     }
 
     @Test
-    public void shouldDatePlus4(){
+    public void shouldDatePlus4() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
         //set actual date
@@ -222,7 +221,7 @@ public class CardWithDeliveryTest {
     }
 
     @Test
-    public void shouldNameEmpty(){
+    public void shouldNameEmpty() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
         //set actual date
@@ -238,7 +237,7 @@ public class CardWithDeliveryTest {
     }
 
     @Test
-    public void shouldNameLatin(){
+    public void shouldNameLatin() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
         //set actual date
@@ -255,7 +254,7 @@ public class CardWithDeliveryTest {
     }
 
     @Test
-    public void shouldNameNumeric(){
+    public void shouldNameNumeric() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
         //set actual date
@@ -272,7 +271,7 @@ public class CardWithDeliveryTest {
     }
 
     @Test
-    public void shouldNameSpecialSymbol(){
+    public void shouldNameSpecialSymbol() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
         //set actual date
@@ -289,7 +288,7 @@ public class CardWithDeliveryTest {
     }
 
     @Test
-    public void shouldPhoneEmpty(){
+    public void shouldPhoneEmpty() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
         //set actual date
@@ -305,7 +304,7 @@ public class CardWithDeliveryTest {
     }
 
     @Test
-    public void shouldPhoneLessPlus(){
+    public void shouldPhoneLessPlus() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
         //set actual date
@@ -322,7 +321,7 @@ public class CardWithDeliveryTest {
     }
 
     @Test
-    public void shouldPhoneLessNumber(){
+    public void shouldPhoneLessNumber() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
         //set actual date
@@ -339,7 +338,7 @@ public class CardWithDeliveryTest {
     }
 
     @Test
-    public void shouldPhoneMoreNumber(){
+    public void shouldPhoneMoreNumber() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
         //set actual date
@@ -356,7 +355,7 @@ public class CardWithDeliveryTest {
     }
 
     @Test
-    public void shouldNoAgreement(){
+    public void shouldNoAgreement() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
         //set actual date
@@ -369,5 +368,55 @@ public class CardWithDeliveryTest {
         $$("button[class*=\"button\"] ").findBy(text("Забронировать")).click(); // press order button
         String text = $("[class*=\"input_invalid\"][data-test-id=\"agreement\"] [role=\"presentation\"]").getText();
         assertEquals("Я соглашаюсь с условиями обработки и использования моих персональных данных", text.trim());
+    }
+
+    @Test
+    public void shouldCityDropDownList() {
+        open("http://localhost:9999"); // open webpage
+        $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Мо"); // input city
+        $$("[class=\"popup__content\"] [class=\"menu-item__control\"]").findBy(text("Москва")).click();
+        //set actual date
+        LocalDate date = LocalDate.now();
+        date = date.plusDays(3);
+        String actualDate = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        $("[data-test-id=\"date\"] [placeholder=\"Дата встречи\"]").doubleClick().sendKeys(actualDate);
+
+        $("[data-test-id=\"name\"] [name=\"name\"]").setValue("Иванов Иван"); // input family and name
+        $("[data-test-id=\"phone\"] [name=\"phone\"]").setValue("+79990001122"); // input family and name
+        $("[class=\"checkbox__text\"]").click(); //check agreement
+        $$("button[class*=\"button\"] ").findBy(text("Забронировать")).click(); // press order button
+        $("[data-test-id=\"notification\"]").waitUntil(visible, 15000); // wait notification
+        String text = $("[data-test-id=\"notification\"] [class=\"notification__content\"]").getText();
+
+        assertTrue(text.contains("Встреча успешно забронирована на"));
+    }
+
+    @Test
+    public void shouldDateDropDownList() {
+        open("http://localhost:9999"); // open webpage
+        $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Москва"); // input city
+
+//        set actual date
+        LocalDate date = LocalDate.now();
+        int lengthOfMonth = date.lengthOfMonth();
+        int increment = 7; // increment of date for test
+        int actualDate = date.getDayOfMonth() + increment;
+        date = date.plusDays(increment);
+        int dayOfMonth = date.getDayOfMonth();
+
+        $("[data-test-id=\"date\"] [class=\"input__icon\"]").click();
+        if (actualDate > lengthOfMonth) {
+            dayOfMonth = actualDate - lengthOfMonth;
+            $("[class=\"calendar__arrow calendar__arrow_direction_right\"]").click();
+        }
+        $$("[class=\"calendar__layout\"] [role=\"gridcell\"]").findBy(text(String.valueOf(dayOfMonth))).click();
+        $("[data-test-id=\"name\"] [name=\"name\"]").setValue("Иванов Иван"); // input family and name
+        $("[data-test-id=\"phone\"] [name=\"phone\"]").setValue("+79990001122"); // input family and name
+        $("[class=\"checkbox__text\"]").click(); //check agreement
+        $$("button[class*=\"button\"] ").findBy(text("Забронировать")).click(); // press order button
+        $("[data-test-id=\"notification\"]").waitUntil(visible, 15000); // wait notification
+        String text = $("[data-test-id=\"notification\"] [class=\"notification__content\"]").getText();
+
+        assertTrue(text.contains("Встреча успешно забронирована на"));
     }
 }
