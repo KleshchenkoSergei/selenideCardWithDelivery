@@ -368,6 +368,6 @@ public class CardWithDeliveryTest {
         $("[data-test-id=\"phone\"] [name=\"phone\"]").setValue("+79990001120"); // input family and name
         $$("button[class*=\"button\"] ").findBy(text("Забронировать")).click(); // press order button
         String text = $("[class*=\"input_invalid\"][data-test-id=\"agreement\"] [role=\"presentation\"]").getText();
-        assertEquals("FAILED_TEST_Я соглашаюсь с условиями обработки и использования моих персональных данных", text.trim());
+        assertEquals("Я соглашаюсь с условиями обработки и использования моих персональных данных", text.trim());
     }
 }
