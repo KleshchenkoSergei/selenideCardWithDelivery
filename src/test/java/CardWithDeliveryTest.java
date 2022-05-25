@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
 
+import java.time.Duration;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
@@ -16,18 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CardWithDeliveryTest {
 
-    @BeforeAll
-    static void setUp() {
-    }
-
-    @BeforeEach
-    void setUp2() {
-        //headless webdriver mode
-        Configuration.headless = true;
-    }
-
-    @AfterEach
-    public void close() {
+    public String generateDate(int days) {
+        return LocalDate.now().plusDays(days).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
     }
 
     @Test
@@ -35,29 +26,22 @@ public class CardWithDeliveryTest {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Москва"); // input city
 
-        //set actual date
-        LocalDate date = LocalDate.now();
-        date = date.plusDays(3);
-        String actualDate = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        String actualDate = generateDate(3);
         $("[data-test-id=\"date\"] [placeholder=\"Дата встречи\"]").doubleClick().sendKeys(actualDate);
 
         $("[data-test-id=\"name\"] [name=\"name\"]").setValue("Иванов Иван"); // input family and name
         $("[data-test-id=\"phone\"] [name=\"phone\"]").setValue("+79990001122"); // input family and name
         $("[class=\"checkbox__text\"]").click(); //check agreement
         $$("button[class*=\"button\"] ").findBy(text("Забронировать")).click(); // press order button
-        $("[data-test-id=\"notification\"]").waitUntil(visible, 15000); // wait notification
-        String text = $("[data-test-id=\"notification\"] [class=\"notification__content\"]").getText();
-
-        assertTrue(text.contains("Встреча успешно забронирована на"));
+        $("[data-test-id=\"notification\"] [class=\"notification__content\"]").shouldHave(text("Встреча успешно забронирована на " + actualDate), Duration.ofMillis(15000));
     }
 
     @Test
     public void shouldCityEmpty() {
         open("http://localhost:9999"); // open webpage
-        //set actual date
-        LocalDate date = LocalDate.now();
-        date = date.plusDays(3);
-        String actualDate = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+
+        String actualDate = generateDate(3);
+
         $("[data-test-id=\"date\"] [placeholder=\"Дата встречи\"]").doubleClick().sendKeys(actualDate);
         $("[data-test-id=\"name\"] [name=\"name\"]").setValue("Иванов Иван"); // input family and name
         $("[data-test-id=\"phone\"] [name=\"phone\"]").setValue("+79990001122"); // input family and name
@@ -71,10 +55,9 @@ public class CardWithDeliveryTest {
     public void shouldCityLatin() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Moscow"); // input city
-        //set actual date
-        LocalDate date = LocalDate.now();
-        date = date.plusDays(3);
-        String actualDate = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+
+        String actualDate = generateDate(3);
+
         $("[data-test-id=\"date\"] [placeholder=\"Дата встречи\"]").doubleClick().sendKeys(actualDate);
         $("[data-test-id=\"name\"] [name=\"name\"]").setValue("Иванов Иван"); // input family and name
         $("[data-test-id=\"phone\"] [name=\"phone\"]").setValue("+79990001122"); // input family and name
@@ -88,10 +71,9 @@ public class CardWithDeliveryTest {
     public void shouldCityNumeric() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Москва2"); // input city
-        //set actual date
-        LocalDate date = LocalDate.now();
-        date = date.plusDays(3);
-        String actualDate = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+
+        String actualDate = generateDate(3);
+
         $("[data-test-id=\"date\"] [placeholder=\"Дата встречи\"]").doubleClick().sendKeys(actualDate);
         $("[data-test-id=\"name\"] [name=\"name\"]").setValue("Иванов Иван"); // input family and name
         $("[data-test-id=\"phone\"] [name=\"phone\"]").setValue("+79990001122"); // input family and name
@@ -105,10 +87,9 @@ public class CardWithDeliveryTest {
     public void shouldCityNoDelivery() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Рубцовск"); // input city
-        //set actual date
-        LocalDate date = LocalDate.now();
-        date = date.plusDays(3);
-        String actualDate = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+
+        String actualDate = generateDate(3);
+
         $("[data-test-id=\"date\"] [placeholder=\"Дата встречи\"]").doubleClick().sendKeys(actualDate);
         $("[data-test-id=\"name\"] [name=\"name\"]").setValue("Иванов Иван"); // input family and name
         $("[data-test-id=\"phone\"] [name=\"phone\"]").setValue("+79990001122"); // input family and name
@@ -122,10 +103,9 @@ public class CardWithDeliveryTest {
     public void shouldDateEmpty() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
-        //set actual date
-        LocalDate date = LocalDate.now();
-        date = date.minusDays(1);
-        String actualDate = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+
+        String actualDate = generateDate(1);
+
         $("[data-test-id=\"date\"] [placeholder=\"Дата встречи\"]").doubleClick().sendKeys(Keys.DELETE);
         $("[data-test-id=\"name\"] [name=\"name\"]").setValue("Иванов Иван"); // input family and name
         $("[data-test-id=\"phone\"] [name=\"phone\"]").setValue("+79990001122"); // input family and name
@@ -139,10 +119,9 @@ public class CardWithDeliveryTest {
     public void shouldDateYesterday() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
-        //set actual date
-        LocalDate date = LocalDate.now();
-        date = date.minusDays(1);
-        String actualDate = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+
+        String actualDate = generateDate(1);
+
         $("[data-test-id=\"date\"] [placeholder=\"Дата встречи\"]").doubleClick().sendKeys(actualDate);
         $("[data-test-id=\"name\"] [name=\"name\"]").setValue("Иванов Иван"); // input family and name
         $("[data-test-id=\"phone\"] [name=\"phone\"]").setValue("+79990001122"); // input family and name
@@ -156,9 +135,9 @@ public class CardWithDeliveryTest {
     public void shouldDateToday() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
-        //set actual date
-        LocalDate date = LocalDate.now();
-        String actualDate = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+
+        String actualDate = generateDate(0);
+
         $("[data-test-id=\"date\"] [placeholder=\"Дата встречи\"]").doubleClick().sendKeys(actualDate);
         $("[data-test-id=\"name\"] [name=\"name\"]").setValue("Иванов Иван"); // input family and name
         $("[data-test-id=\"phone\"] [name=\"phone\"]").setValue("+79990001122"); // input family and name
@@ -172,10 +151,9 @@ public class CardWithDeliveryTest {
     public void shouldDateTomorrow() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
-        //set actual date
-        LocalDate date = LocalDate.now();
-        date = date.plusDays(1);
-        String actualDate = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+
+        String actualDate = generateDate(1);
+
         $("[data-test-id=\"date\"] [placeholder=\"Дата встречи\"]").doubleClick().sendKeys(actualDate);
         $("[data-test-id=\"name\"] [name=\"name\"]").setValue("Иванов Иван"); // input family and name
         $("[data-test-id=\"phone\"] [name=\"phone\"]").setValue("+79990001122"); // input family and name
@@ -189,10 +167,9 @@ public class CardWithDeliveryTest {
     public void shouldDatePlus2() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
-        //set actual date
-        LocalDate date = LocalDate.now();
-        date = date.plusDays(2);
-        String actualDate = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+
+        String actualDate = generateDate(2);
+
         $("[data-test-id=\"date\"] [placeholder=\"Дата встречи\"]").doubleClick().sendKeys(actualDate);
         $("[data-test-id=\"name\"] [name=\"name\"]").setValue("Иванов Иван"); // input family and name
         $("[data-test-id=\"phone\"] [name=\"phone\"]").setValue("+79990001122"); // input family and name
@@ -206,28 +183,25 @@ public class CardWithDeliveryTest {
     public void shouldDatePlus4() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
-        //set actual date
-        LocalDate date = LocalDate.now();
-        date = date.plusDays(4);
-        String actualDate = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+
+        String actualDate = generateDate(4);
+
         $("[data-test-id=\"date\"] [placeholder=\"Дата встречи\"]").doubleClick().sendKeys(actualDate);
         $("[data-test-id=\"name\"] [name=\"name\"]").setValue("Иванов Иван"); // input family and name
         $("[data-test-id=\"phone\"] [name=\"phone\"]").setValue("+79990001122"); // input family and name
         $("[class=\"checkbox__text\"]").click(); //check agreement
         $$("button[class*=\"button\"] ").findBy(text("Забронировать")).click(); // press order button
-        $("[data-test-id=\"notification\"]").waitUntil(visible, 15000); // wait notification
-        String text = $("[data-test-id=\"notification\"] [class=\"notification__content\"]").getText();
-        assertTrue(text.contains("Встреча успешно забронирована на"));
+        $("[data-test-id=\"notification\"] [class=\"notification__content\"]").shouldHave(text("Встреча успешно забронирована на " + actualDate), Duration.ofMillis(15000));
+
     }
 
     @Test
     public void shouldNameEmpty() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
-        //set actual date
-        LocalDate date = LocalDate.now();
-        date = date.plusDays(3);
-        String actualDate = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+
+        String actualDate = generateDate(3);
+
         $("[data-test-id=\"date\"] [placeholder=\"Дата встречи\"]").doubleClick().sendKeys(actualDate);
         $("[data-test-id=\"phone\"] [name=\"phone\"]").setValue("+79990001122"); // input family and name
         $("[class=\"checkbox__text\"]").click(); //check agreement
@@ -240,10 +214,9 @@ public class CardWithDeliveryTest {
     public void shouldNameLatin() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
-        //set actual date
-        LocalDate date = LocalDate.now();
-        date = date.plusDays(3);
-        String actualDate = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+
+        String actualDate = generateDate(3);
+
         $("[data-test-id=\"date\"] [placeholder=\"Дата встречи\"]").doubleClick().sendKeys(actualDate);
         $("[data-test-id=\"name\"] [name=\"name\"]").setValue("Ivanov Ivan"); // input family and name
         $("[data-test-id=\"phone\"] [name=\"phone\"]").setValue("+79990001122"); // input family and name
@@ -257,10 +230,9 @@ public class CardWithDeliveryTest {
     public void shouldNameNumeric() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
-        //set actual date
-        LocalDate date = LocalDate.now();
-        date = date.plusDays(3);
-        String actualDate = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+
+        String actualDate = generateDate(3);
+
         $("[data-test-id=\"date\"] [placeholder=\"Дата встречи\"]").doubleClick().sendKeys(actualDate);
         $("[data-test-id=\"name\"] [name=\"name\"]").setValue("Иванов Иван35"); // input family and name
         $("[data-test-id=\"phone\"] [name=\"phone\"]").setValue("+79990001122"); // input family and name
@@ -274,10 +246,9 @@ public class CardWithDeliveryTest {
     public void shouldNameSpecialSymbol() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
-        //set actual date
-        LocalDate date = LocalDate.now();
-        date = date.plusDays(3);
-        String actualDate = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+
+        String actualDate = generateDate(3);
+
         $("[data-test-id=\"date\"] [placeholder=\"Дата встречи\"]").doubleClick().sendKeys(actualDate);
         $("[data-test-id=\"name\"] [name=\"name\"]").setValue("Иванов Иван@"); // input family and name
         $("[data-test-id=\"phone\"] [name=\"phone\"]").setValue("+79990001122"); // input family and name
@@ -291,10 +262,9 @@ public class CardWithDeliveryTest {
     public void shouldPhoneEmpty() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
-        //set actual date
-        LocalDate date = LocalDate.now();
-        date = date.plusDays(3);
-        String actualDate = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+
+        String actualDate = generateDate(3);
+
         $("[data-test-id=\"date\"] [placeholder=\"Дата встречи\"]").doubleClick().sendKeys(actualDate);
         $("[data-test-id=\"name\"] [name=\"name\"]").setValue("Иванов Иван"); // input family and name
         $("[class=\"checkbox__text\"]").click(); //check agreement
@@ -307,10 +277,9 @@ public class CardWithDeliveryTest {
     public void shouldPhoneLessPlus() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
-        //set actual date
-        LocalDate date = LocalDate.now();
-        date = date.plusDays(3);
-        String actualDate = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+
+        String actualDate = generateDate(3);
+
         $("[data-test-id=\"date\"] [placeholder=\"Дата встречи\"]").doubleClick().sendKeys(actualDate);
         $("[data-test-id=\"name\"] [name=\"name\"]").setValue("Иванов Иван"); // input family and name
         $("[data-test-id=\"phone\"] [name=\"phone\"]").setValue("79990001122"); // input family and name
@@ -324,10 +293,9 @@ public class CardWithDeliveryTest {
     public void shouldPhoneLessNumber() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
-        //set actual date
-        LocalDate date = LocalDate.now();
-        date = date.plusDays(3);
-        String actualDate = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+
+        String actualDate = generateDate(3);
+
         $("[data-test-id=\"date\"] [placeholder=\"Дата встречи\"]").doubleClick().sendKeys(actualDate);
         $("[data-test-id=\"name\"] [name=\"name\"]").setValue("Иванов Иван"); // input family and name
         $("[data-test-id=\"phone\"] [name=\"phone\"]").setValue("+7999000112"); // input family and name
@@ -341,10 +309,9 @@ public class CardWithDeliveryTest {
     public void shouldPhoneMoreNumber() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
-        //set actual date
-        LocalDate date = LocalDate.now();
-        date = date.plusDays(3);
-        String actualDate = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+
+        String actualDate = generateDate(3);
+
         $("[data-test-id=\"date\"] [placeholder=\"Дата встречи\"]").doubleClick().sendKeys(actualDate);
         $("[data-test-id=\"name\"] [name=\"name\"]").setValue("Иванов Иван"); // input family and name
         $("[data-test-id=\"phone\"] [name=\"phone\"]").setValue("+799900011200"); // input family and name
@@ -358,10 +325,9 @@ public class CardWithDeliveryTest {
     public void shouldNoAgreement() {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Барнаул"); // input city
-        //set actual date
-        LocalDate date = LocalDate.now();
-        date = date.plusDays(3);
-        String actualDate = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+
+        String actualDate = generateDate(3);
+
         $("[data-test-id=\"date\"] [placeholder=\"Дата встречи\"]").doubleClick().sendKeys(actualDate);
         $("[data-test-id=\"name\"] [name=\"name\"]").setValue("Иванов Иван"); // input family and name
         $("[data-test-id=\"phone\"] [name=\"phone\"]").setValue("+79990001120"); // input family and name
@@ -375,20 +341,16 @@ public class CardWithDeliveryTest {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Мо"); // input city
         $$("[class=\"popup__content\"] [class=\"menu-item__control\"]").findBy(text("Москва")).click();
-        //set actual date
-        LocalDate date = LocalDate.now();
-        date = date.plusDays(3);
-        String actualDate = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        $("[data-test-id=\"date\"] [placeholder=\"Дата встречи\"]").doubleClick().sendKeys(actualDate);
 
+        String actualDate = generateDate(3);
+
+        $("[data-test-id=\"date\"] [placeholder=\"Дата встречи\"]").doubleClick().sendKeys(actualDate);
         $("[data-test-id=\"name\"] [name=\"name\"]").setValue("Иванов Иван"); // input family and name
         $("[data-test-id=\"phone\"] [name=\"phone\"]").setValue("+79990001122"); // input family and name
         $("[class=\"checkbox__text\"]").click(); //check agreement
         $$("button[class*=\"button\"] ").findBy(text("Забронировать")).click(); // press order button
-        $("[data-test-id=\"notification\"]").waitUntil(visible, 15000); // wait notification
-        String text = $("[data-test-id=\"notification\"] [class=\"notification__content\"]").getText();
+        $("[data-test-id=\"notification\"] [class=\"notification__content\"]").shouldHave(text("Встреча успешно забронирована на " + actualDate), Duration.ofMillis(15000));
 
-        assertTrue(text.contains("Встреча успешно забронирована на"));
     }
 
     @Test
@@ -396,13 +358,13 @@ public class CardWithDeliveryTest {
         open("http://localhost:9999"); // open webpage
         $("[data-test-id=\"city\"] [placeholder=\"Город\"]").setValue("Москва"); // input city
 
-//        set actual date
         LocalDate date = LocalDate.now();
         int lengthOfMonth = date.lengthOfMonth();
         int increment = 7; // increment of date for test
         int actualDate = date.getDayOfMonth() + increment;
         date = date.plusDays(increment);
         int dayOfMonth = date.getDayOfMonth();
+        String actualDateString = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
 
         $("[data-test-id=\"date\"] [class=\"input__icon\"]").click();
         if (actualDate > lengthOfMonth) {
@@ -414,9 +376,7 @@ public class CardWithDeliveryTest {
         $("[data-test-id=\"phone\"] [name=\"phone\"]").setValue("+79990001122"); // input family and name
         $("[class=\"checkbox__text\"]").click(); //check agreement
         $$("button[class*=\"button\"] ").findBy(text("Забронировать")).click(); // press order button
-        $("[data-test-id=\"notification\"]").waitUntil(visible, 15000); // wait notification
-        String text = $("[data-test-id=\"notification\"] [class=\"notification__content\"]").getText();
+        $("[data-test-id=\"notification\"] [class=\"notification__content\"]").shouldHave(text("Встреча успешно забронирована на " + actualDateString), Duration.ofMillis(15000));
 
-        assertTrue(text.contains("Встреча успешно забронирована на"));
     }
 }
