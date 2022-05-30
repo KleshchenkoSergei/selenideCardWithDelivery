@@ -369,7 +369,6 @@ public class CardWithDeliveryTest {
         $("[data-test-id=\"date\"] [class=\"input__icon\"]").click();
         if (actualDate > lengthOfMonth) {
             dayOfMonth = actualDate - lengthOfMonth;
-            $("[class=\"calendar__arrow calendar__arrow_direction_right\"]").click();
         }
         $$("[class=\"calendar__layout\"] [role=\"gridcell\"]").findBy(text(String.valueOf(dayOfMonth))).click();
         $("[data-test-id=\"name\"] [name=\"name\"]").setValue("Иванов Иван"); // input family and name
